@@ -46,10 +46,8 @@ class ModelWithLoss(nn.Module):
         return cls_loss, reg_loss
 
 
-def getEfficientDetImpl(num_class=None,load_weights=None):
+def getEfficientDetImpl(num_class=None,load_weights=None, compound_coef=0):
     import pathlib
-
-    print(pathlib.Path(__file__).parent.absolute())
 
     params = Params(os.path.join(pathlib.Path(__file__).parent.absolute(),f'projects/coco.yml'))
 
@@ -57,8 +55,9 @@ def getEfficientDetImpl(num_class=None,load_weights=None):
     if num_class is not None:
         j=num_class
     
-    model = EfficientDetBackbone(num_classes=j, compound_coef=0,
+    model = EfficientDetBackbone(num_classes=j, compound_coef=compound_coef,
                                  ratios=eval(params.anchors_ratios), scales=eval(params.anchors_scales))
+    
     
     # # load last weights
     # if load_weights is not None:
